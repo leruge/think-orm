@@ -150,6 +150,11 @@ trait SoftDelete
      */
     public static function destroy($data, bool $force = false): bool
     {
+        // 传入空不执行删除，但是0可以删除
+        if (empty($data) && 0 !== $data) {
+            return false;
+        }
+        
         // 包含软删除数据
         $query = (new static())->withTrashedData(true)->db(false);
 
